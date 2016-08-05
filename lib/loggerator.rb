@@ -3,7 +3,7 @@ require_relative './loggerator/request_store'
 # from https://github.com/interagent/pliny/blob/master/lib/pliny/log.rb
 module Loggerator
   def log(data, &block)
-    log_to_stream(stdout || $stdout, merge_log_contexts(data), &block)
+    log_to_stream(stdout, merge_log_contexts(data), &block)
   end
 
   def log_exception(e, data = {})
@@ -30,7 +30,7 @@ module Loggerator
 
     data[:status] = e.status if e.respond_to?(:status)
 
-    log_to_stream(stderr || $stderr, merge_log_contexts(data))
+    log_to_stream(stderr, merge_log_contexts(data))
   end
 
   def context(data, &block)
@@ -42,28 +42,30 @@ module Loggerator
     res
   end
 
+  # The setters below don't work when Loggerator is included in a class, as
+  # opposed to extending a module.
   def default_context=(default_context)
-    @default_context = default_context
+    @@default_context = default_context
   end
 
   def default_context
-    @default_context ||= {}
+    @@default_context ||= {}
   end
 
   def stdout=(stream)
-    @stdout = stream
+    @@stdout = stream
   end
 
   def stdout
-    @stdout ||= $stdout
+    @@stdout ||= $stdout
   end
 
   def stderr=(stream)
-    @stderr = stream
+    @@stderr = stream
   end
 
   def stderr
-    @stderr ||= $stderr
+    @@stderr ||= $stderr
   end
 
   private
@@ -91,16 +93,16 @@ module Loggerator
     else
       data = data.dup
       start = Time.now
-      log_to_stream(stream, data.merge(at: "start"))
+      log_to_stream(stream, data.merge(at: 'start'))
       begin
         res = yield
 
         log_to_stream(stream, data.merge(
-          at: "finish", elapsed: (Time.now - start).to_f))
+          at: 'finish', elapsed: (Time.now - start).to_f))
         res
       rescue
         log_to_stream(stream, data.merge(
-          at: "exception", elapsed: (Time.now - start).to_f))
+          at: 'exception', elapsed: (Time.now - start).to_f))
         raise $!
       end
     end

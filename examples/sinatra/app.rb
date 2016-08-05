@@ -4,17 +4,20 @@ require 'sinatra'
 require_relative './lib/loggerator'
 require_relative './lib/loggerator/middleware/request_store'
 
-include Loggerator
-
 use Loggerator::Middleware::RequestStore
 
 set :port, '3000'
 set :bind, '0.0.0.0' # bind for docker
 set :logging, false  # disable default logging
 
+include Loggerator
+
+# Set Loggerator default_context
+self.default_context = { app: :basic }
+
 get '/' do
-  context app: :basic do
-    log method: :get do
+  context method: :get do
+    log status: 200 do
       "Hello Loggerator!\n"
     end
   end

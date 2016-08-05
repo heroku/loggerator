@@ -9,6 +9,8 @@ class TestLoggerator < Minitest::Test
   def setup
     # flush request store
     Thread.current[:request_store] = {}
+
+    self.default_context = {}
   end
 
   def test_logs_in_structured_format

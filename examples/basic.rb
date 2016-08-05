@@ -1,4 +1,4 @@
-require "webrick"
+require 'webrick'
 require 'logger'
 require_relative '../lib/loggerator'
 
