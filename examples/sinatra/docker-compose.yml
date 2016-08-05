@@ -1,0 +1,23 @@
+web:
+  image: ruby:latest
+  working_dir: /app/user
+  volumes:
+    - 'app.rb:/app/user/app.rb'
+    - 'Makefile:/app/user/Makefile'
+    - 'Gemfile:/app/user/Gemfile'
+    - '../../lib:/app/user/lib'
+  environment:
+    - PORT=3000
+    - BIND=0.0.0.0
+  ports:
+    - '3000:3000'
+  command: make
+
+curl:
+  image: ruby:latest # because you already have it
+  working_dir: /app/user
+  volumes:
+    - 'Makefile:/app/user/Makefile'
+  links:
+    - web
+  command: make curl
