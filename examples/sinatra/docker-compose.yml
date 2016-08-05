@@ -2,16 +2,10 @@ web:
   image: ruby:latest
   working_dir: /app/user
   volumes:
-    - 'app.rb:/app/user/app.rb'
-    - 'Makefile:/app/user/Makefile'
-    - 'Gemfile:/app/user/Gemfile'
-    - '../../lib:/app/user/lib'
-  environment:
-    - PORT=3000
-    - BIND=0.0.0.0
+    - '../../:/app/user'
   ports:
     - '3000:3000'
-  command: make
+  command: bash -c 'cd examples/sinatra && make'
 
 curl:
   image: ruby:latest # because you already have it

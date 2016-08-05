@@ -1,6 +1,6 @@
 require_relative './loggerator/request_store'
+require_relative './loggerator/middleware'
 
-# from https://github.com/interagent/pliny/blob/master/lib/pliny/log.rb
 module Loggerator
   def log(data, &block)
     log_to_stream(stdout, merge_log_contexts(data), &block)

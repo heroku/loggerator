@@ -4,7 +4,6 @@ require 'minitest/autorun'
 require 'logger'
 
 require_relative '../../../lib/loggerator'
-require_relative '../../../lib/loggerator/middleware/request_store'
 
 class Loggerator::Middleware::TestRequestStore < Minitest::Test
   include Rack::Test::Methods
@@ -12,7 +11,7 @@ class Loggerator::Middleware::TestRequestStore < Minitest::Test
   def app
     Rack::Builder.new do
       use Rack::Lint
-      use Loggerator::Middleware::RequestStore, store: Loggerator::RequestStore
+      use Loggerator::Middleware::RequestStore
 
       run ->(env) { [ 200, { }, [ 'hi' ] ] }
     end

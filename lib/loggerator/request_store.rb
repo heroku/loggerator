@@ -6,13 +6,8 @@ module Loggerator
       end
 
       def seed(env)
-
-        request_ids = []
-        request_ids << env['REQUEST_ID'] if env['REQUEST_ID']
-        request_ids << env['REQUEST_IDS'] ? env['REQUEST_IDS'] : []
-        request_ids = request_ids.join(',')
-
-        store[:request_id] = request_ids == '' ? nil : request_ids
+        store[:request_id] =
+          env["REQUEST_IDS"] ? env["REQUEST_IDS"].join(",") : nil
 
         # a global context that evolves over the lifetime of the request, and is
         # used to tag all log messages that it produces
