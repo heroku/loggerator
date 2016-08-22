@@ -6,7 +6,7 @@ class BasicApp < WEBrick::HTTPServlet::AbstractServlet
   include Loggerator
 
   def do_GET(req, res)
-    context app: :basic do
+    log_context app: :basic do
       status = 200
 
       log status: status, method: req.request_method, path: req.path do

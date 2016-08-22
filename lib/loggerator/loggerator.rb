@@ -35,7 +35,7 @@ module Loggerator
     log_to_stream(stderr, merge_log_contexts(data))
   end
 
-  def context(data, &block)
+  def log_context(data, &block)
     old = local_context
     self.local_context = old.merge(data)
     res = block.call
@@ -72,7 +72,7 @@ module Loggerator
 
   private
     def merge_log_contexts(data)
-      default_context.merge(log_context.merge(local_context.merge(data)))
+      default_context.merge(request_context.merge(local_context.merge(data)))
     end
 
     def local_context
@@ -83,8 +83,8 @@ module Loggerator
       RequestStore.store[:local_context] = h
     end
 
-    def log_context
-      RequestStore.store[:log_context] || {}
+    def request_context
+      RequestStore.store[:request_context] || {}
     end
 
     def log_to_stream(stream, data, &block)
