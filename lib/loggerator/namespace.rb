@@ -4,7 +4,7 @@ module Loggerator
   module Namespace
     include Loggerator
 
-    def log(data = {}, &blk)
+    def log(data={}, &blk)
       log_namespace!
       super
     end
@@ -16,7 +16,7 @@ module Loggerator
 
     private
       def log_namespace!
-        self.local_context = {ns: self.class.name}
+        self.local_context = { ns: self.class.name }
       end
   end
 end
