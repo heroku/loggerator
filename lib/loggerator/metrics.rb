@@ -27,8 +27,10 @@ module Loggerator
       log("sample##{name}.#{key}" => value)
     end
   end
+
+  # included Metrics shortcut
+  def m; Metrics; end
 end
 
 # simple alias if its not already being used
 Metrics = Loggerator::Metrics unless defined?(Metrics)
-
