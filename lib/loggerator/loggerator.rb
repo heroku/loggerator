@@ -12,7 +12,7 @@ module Loggerator
     log_to_stream(stdout, merge_log_contexts(data), &block)
   end
 
-  def log_exception(e, data = {})
+  def log_error(e, data = {})
     exception_id = e.object_id
 
     # Log backtrace in reverse order for easier digestion.
