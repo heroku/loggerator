@@ -15,7 +15,6 @@ module Loggerator
         ActionController::Base ].each do |c|
 
         c.include Loggerator
-        c.extend  Loggerator
       end
     end
 

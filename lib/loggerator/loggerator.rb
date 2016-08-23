@@ -4,6 +4,10 @@ require_relative 'middleware'
 module Loggerator
   extend self
 
+  def self.included(mod)
+    mod.extend self
+  end
+
   def log(data, &block)
     log_to_stream(stdout, merge_log_contexts(data), &block)
   end
@@ -44,8 +48,6 @@ module Loggerator
     res
   end
 
-  # The setters below don't work when Loggerator is included in a class, as
-  # opposed to extending a module.
   def default_context=(default_context)
     @@default_context = default_context
   end
@@ -109,17 +111,6 @@ module Loggerator
       end
     end
 
-    def quote_string(k, v)
-      # try to find a quote style that fits
-      if !v.include?('"')
-        %{#{k}="#{v}"}
-      elsif !v.include?("'")
-        %{#{k}='#{v}'}
-      else
-        %{#{k}="#{v.gsub(/"/, '\\"')}"}
-      end
-    end
-
     def unparse(attrs)
       attrs.map { |k, v| unparse_pair(k, v) }.compact.join(" ")
     end
@@ -139,6 +130,17 @@ module Loggerator
         "#{k}=#{v.iso8601}"
       else
         "#{k}=#{v}"
+      end
+    end
+
+    def quote_string(k, v)
+      # try to find a quote style that fits
+      if !v.include?('"')
+        %{#{k}="#{v}"}
+      elsif !v.include?("'")
+        %{#{k}='#{v}'}
+      else
+        %{#{k}="#{v.gsub(/"/, '\\"')}"}
       end
     end
 end
