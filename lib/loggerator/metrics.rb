@@ -19,13 +19,18 @@ module Loggerator
       log("count##{name}.#{key}" => value)
     end
 
+    def sample(key, value)
+      log("sample##{name}.#{key}" => value)
+    end
+
+    def unique(key, value)
+      log("unique##{name}.#{key}" => value)
+    end
+
     def measure(key, value, units='s')
       log("measure##{name}.#{key}" => "#{value}#{units}")
     end
 
-    def sample(key, value)
-      log("sample##{name}.#{key}" => value)
-    end
   end
 
   # included Metrics shortcut
