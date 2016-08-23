@@ -20,10 +20,10 @@ class Loggerator::TestRequestStore < Minitest::Test
     assert_equal 'abc,def', Loggerator::RequestStore.store[:request_id]
   end
 
-  def test_seeds_log_context
+  def test_seeds_request_context
     Loggerator::RequestStore.seed(@env)
 
-    assert_equal 'abc,def', Loggerator::RequestStore.store[:log_context][:request_id]
+    assert_equal 'abc,def', Loggerator::RequestStore.store[:request_context][:request_id]
   end
 
   def test_is_cleared_by_clear!

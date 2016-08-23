@@ -50,9 +50,9 @@ class TestLoggerator < Minitest::Test
     assert_equal out, "app=my_app foo=bar\n"
   end
 
-  def test_suports_a_context
+  def test_suports_a_log_context
     out, _ = capture_subprocess_io do
-      self.context(app: 'my_app') do
+      self.log_context(app: 'my_app') do
         log(foo: 'bar')
       end
     end
@@ -60,10 +60,10 @@ class TestLoggerator < Minitest::Test
     assert_equal out, "app=my_app foo=bar\n"
   end
 
-  def test_context_merged_with_default_context
+  def test_log_context_merged_with_default_context
     out, _ = capture_subprocess_io do
       self.default_context = { app: 'my_app' }
-      self.context(foo: 'bar') do
+      self.log_context(foo: 'bar') do
         log(bah: 'boo')
       end
     end

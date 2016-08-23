@@ -2,7 +2,7 @@ module Loggerator::Middleware
   class RequestStore
     def initialize(app, options={})
       @app = app
-      @store = options[:store] || ::Loggerator::RequestStore
+      @store = options[:store] || Loggerator::RequestStore
     end
 
     def call(env)

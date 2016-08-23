@@ -14,7 +14,7 @@ use ::Loggerator::Middleware::RequestStore
 self.default_context = { app: :basic }
 
 get '/' do
-  context method: :get do
+  log_context method: :get do
     log status: 200 do
       "Hello Loggerator!\n"
     end

@@ -32,25 +32,24 @@ module Loggerator::Middleware
     end
 
     private
-
-    def extract_request_ids(env)
-      request_ids = raw_request_ids(env)
-      request_ids.map! { |id| id.strip }
-      request_ids.select! { |id| id =~ UUID_PATTERN }
-      request_ids
-    end
-
-    def raw_request_ids(env)
-      # We had a little disagreement around the inception of the Request-Id
-      # field as to whether it should be prefixed with `X-` or not. API went
-      # with no prefix, but Hermes went with one. Support both formats on
-      # input.
-      %w(HTTP_REQUEST_ID HTTP_X_REQUEST_ID).inject([]) do |request_ids, key|
-        if ids = env[key]
-          request_ids += ids.split(",")
-        end
+      def extract_request_ids(env)
+        request_ids = raw_request_ids(env)
+        request_ids.map! { |id| id.strip }
+        request_ids.select! { |id| id =~ UUID_PATTERN }
         request_ids
       end
-    end
+
+      def raw_request_ids(env)
+        # We had a little disagreement around the inception of the Request-Id
+        # field as to whether it should be prefixed with `X-` or not. API went
+        # with no prefix, but Hermes went with one. Support both formats on
+        # input.
+        %w(HTTP_REQUEST_ID HTTP_X_REQUEST_ID).inject([]) do |request_ids, key|
+          if ids = env[key]
+            request_ids += ids.split(",")
+          end
+          request_ids
+        end
+      end
   end
 end

@@ -32,7 +32,7 @@ class Loggerator::Middleware::TestRequestStore < Minitest::Test
 
     assert_equal Thread.current[:request_store], {
       request_id: nil,
-      log_context: {
+      request_context: {
         request_id: nil
       }
     }
