@@ -282,7 +282,7 @@ log class: Loggerator  #=> app=myapp class=Loggerator
 
 Sometimes you want to log the class/module name for every log message.  Loggerator can log these as "namespaces".  An example we use is for a set of similar subclasses without needing to distinguish between them.
 
-You will need to `include Loggerator::Namespace` on the class/moduleyou want to add a namespace.  Subclasses will inherit namespace logging.
+You will need to `include Loggerator::Namespace` on the class/module you want to add a namespace.  Subclasses will inherit namespace logging.
 
 For example, if we have a set of Mediators:
 ```ruby
