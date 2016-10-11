@@ -7,6 +7,10 @@ module Loggerator
 
     @@metrics_name = 'loggerator'
 
+    def self.included(mod)
+      mod.extend self
+    end
+
     def name=(name)
       @@metrics_name = name
     end
@@ -30,7 +34,6 @@ module Loggerator
     def measure(key, value, units='s')
       log("measure##{name}.#{key}" => "#{value}#{units}")
     end
-
   end
 
   # included Metrics shortcut

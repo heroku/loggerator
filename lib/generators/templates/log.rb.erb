@@ -1,4 +1,4 @@
-Loggerator.default_context = { app: "<%= app_name %>" }
+Loggerator::Log.default_context = { app: "<%= app_name %>" }
 <% if defined?(Loggerator::Metrics) -%>
 Loggerator::Metrics.name   = "<%= app_name %>"
 <% end -%>
