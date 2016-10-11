@@ -30,7 +30,6 @@ module Loggerator
     def measure(key, value, units='s')
       log("measure##{name}.#{key}" => "#{value}#{units}")
     end
-
   end
 
   # included Metrics shortcut
