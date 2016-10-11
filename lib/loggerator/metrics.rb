@@ -7,10 +7,6 @@ module Loggerator
 
     @@metrics_name = 'loggerator'
 
-    def self.included(mod)
-      mod.extend self
-    end
-
     def name=(name)
       @@metrics_name = name
     end
