@@ -55,7 +55,7 @@ Generate an initializer file:
 rails g loggerator:log
 ```
 
-This will use your rails name by default, if you want use a different name for your default log context you can specify it at generation:
+This will use your rails project name by default. If you want use a different name for your default log context you can specify it at generation:
 
 ```bash
 rails g loggerator:log -a myapp
@@ -70,12 +70,12 @@ Loggerator::Log.default_context = { app: Config.app_name }
 ### Metrics Integration
 
 When including metrics, these will be added to the log items available:
-* It adds metrics helpers along-side the log-helpers
+* It adds metrics helpers alongside the log helpers
 * It will setup your default log context in an initalizer
 
 #### Metrics Helper
 
-Currently, the only metrics integration is written for [l2met](https://github.com/ryandotsmith/l2met)
+Currently, the only metrics integration is written for [l2met](https://github.com/ryandotsmith/l2met).
 
 Amend your Gemfile to include the l2met integration:
 ```ruby
@@ -123,7 +123,7 @@ require 'loggerator/namespace'
 ```
 
 This allows you to add namespaces to logs for modules/classes that include
-Loggerator::Namespace.
+`Loggerator::Namespace`.
 
 ## Usage
 
@@ -132,15 +132,17 @@ Logs are sent to `stdout` and `stderr` as a stream to follow the [12factor](http
 Assume that the following examples have the following configuration:
 
 ```ruby
-Loggerator.default_context = 'myapp'
-Loggerator::Metrics.name = 'myapp'
+Loggerator::Log.default_context = { app: 'myapp' }
+Loggerator::Metrics.name        = 'myapp'
 ```
 
 ### Log Helpers
 
 #### `log`
 
-Use `log` to log any key-value pairs, they can be any value.  Logs are sent to `stdout` by default
+Use `log` to log any key-value pairs, they can be any value.
+
+Logs are sent to `stdout` by default
 
 ```ruby
 log test1: "first", test2: 123  #=> app=myapp test1=first test2=123
@@ -169,7 +171,7 @@ end
 
 #### `log_context`
 
-You can use `log_context` to add values to all encompassing `log` commands
+You can use `log_context` to add values to all encompassed `log` commands
 
 ```ruby
 log_context group: "test_method" do
@@ -184,7 +186,9 @@ end
 
 #### `log_error`
 
-Log exception information using `log_error`.  It will log the class, message, and backtrace.  Every frame of the backtrace will be logged on its own line and is reverse-ordered so that the most relevant stack frames are last. All the logs will be tied together by a common `exception_id`.  Errors logs are sent to `stderr` by default.
+Log exception information using `log_error`.  It will log the class, message, and backtrace.  Every frame of the backtrace will be logged on its own line and is reverse-ordered so that the most relevant stack frames are last. All the logs will be tied together by a common `exception_id`.
+
+Errors logs are sent to `stderr` by default.
 
 ```ruby
 def emit_error
@@ -210,7 +214,7 @@ log_error $!, try: 2
 
 #### Strings
 
-Loggerator will handle strings sanely by wrapping in quotes:
+Loggerator will handle strings sanely by wrapping in quotes when needed:
 
 ```ruby
 log no_spaces: "first", spaces: "second test"
@@ -271,14 +275,14 @@ log summation: -> { 3 + 2 + 1 }  #=> app=myapp summation=6
 Everything else will not transformed by formatting rules will be logged by running `to_s` on the object.
 
 ```ruby
-log class: Loggerator  #=> app=myapp  class=Loggerator
+log class: Loggerator  #=> app=myapp class=Loggerator
 ```
 
 ### Namespace
 
-Sometimes you want to log the Class name for every log message.  Loggerator calls these Namespaces.  An example we use is for a set of similar subclasses without needing to distinguish between them.
+Sometimes you want to log the class/module name for every log message.  Loggerator can log these as "namespaces".  An example we use is for a set of similar subclasses without needing to distinguish between them.
 
-Next, you will need to `include Loggerator::Namespace` on the class (and its subclasses) you want to add a Namespace.
+You will need to `include Loggerator::Namespace` on the class/moduleyou want to add a namespace.  Subclasses will inherit namespace logging.
 
 For example, if we have a set of Mediators:
 ```ruby
@@ -312,7 +316,9 @@ UpdateMediator.run  #=> app=myapp ns=UpdateMediator call
 
 ### Metrics
 
-Metrics uses the [l2met](https://github.com/ryandotsmith/l2met/wiki/Usage) convention to log `count`, `sample`, `measure`, and `unique` using the `m` helper.  It uses the name set in configuration or it will use "loggerator".  These metrics are sent to `stdout` by default.
+Metrics uses the [l2met](https://github.com/ryandotsmith/l2met/wiki/Usage) convention to log `count`, `sample`, `measure`, and `unique` using the `m` helper.  It uses the name set in configuration.  If it is not set, it will use "loggerator".
+
+These metrics are sent to `stdout` by default.
 
 ```ruby
 m.count(:clicks)                          #=> app=myapp count#myapp.clicks=1
