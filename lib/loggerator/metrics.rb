@@ -30,10 +30,34 @@ module Loggerator
     def measure(key, value, units='s')
       log("measure##{name}.#{key}" => "#{value}#{units}")
     end
+
+    class Chain
+      include Metrics
+
+      def initialize
+        @chain = {}
+      end
+
+      def log(metric)
+        @chain.merge!(metric)
+      end
+
+      def chain
+        @chain
+      end
+    end
   end
 
   # included Metrics shortcut
-  def m; Metrics; end
+  def m &block
+    if block_given?
+      metrics = Loggerator::Metrics::Chain.new
+      metrics.instance_eval &block
+      log(metrics.chain)
+    else
+      Loggerator::Metrics
+    end
+  end
 end
 
 # simple alias if its not already being used
