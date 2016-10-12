@@ -6,10 +6,10 @@ Provides a simple logging mechanism that will generate logs in a `key=value` sty
 
 Loggerator offers the following functionality:
 
-* Simle `log` helpers
-* RequestID genration, chaining
+* Simple `log` helpers
+* RequestID generation, chaining
 * Rails Integration
-* Simple `metrics` helpers for l2met
+* Simple `m` helper for l2met metrics
 
 ## Installation
 
@@ -190,11 +190,13 @@ Log exception information using `log_error`.  It will log the class, message, an
 
 Errors logs are sent to `stderr` by default.
 
+It will use the latest error (`$!`) by deafult.
+
 ```ruby
 def emit_error
   raise "this is an error"
 rescue
-  log_error $!
+  log_error
 end
 
 emit_error
@@ -203,10 +205,20 @@ emit_error
 #=> app=myapp exception_id=70113140892880 exception class=RuntimeError message="this is an error"
 ```
 
+You can specify the error as the first argument, instead of using the latest error (`$!`)
+
+```ruby
+def emit_error
+  raise "this is an error"
+rescue => e
+  log_error(e)
+end
+```
+
 You can add additional key-value pairs to `log_error`
 
 ```ruby
-log_error $!, try: 2
+log_error try: 2
 #=> app=myapp exception_id=70113140892880 exception class=RuntimeError message="this is an error" try=2
 ```
 
@@ -272,7 +284,7 @@ log summation: -> { 3 + 2 + 1 }  #=> app=myapp summation=6
 
 #### Default
 
-Everything else will not transformed by formatting rules will be logged by running `to_s` on the object.
+Everything else won't be transformed by formatting rules.  Instead, they'll be logged by running `to_s` on the object.
 
 ```ruby
 log class: Loggerator  #=> app=myapp class=Loggerator
