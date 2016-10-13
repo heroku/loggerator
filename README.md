@@ -190,7 +190,7 @@ Log exception information using `log_error`.  It will log the class, message, an
 
 Errors logs are sent to `stderr` by default.
 
-It will use the latest error (`$!`) by deafult.
+It will use the latest error (`$!`) by default.
 
 ```ruby
 def emit_error
