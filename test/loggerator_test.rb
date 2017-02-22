@@ -5,6 +5,7 @@ require_relative '../lib/loggerator'
 
 class TestLoggerator < Minitest::Test
   include Loggerator
+  include Loggerator::Log
 
   def setup
     # flush request store
