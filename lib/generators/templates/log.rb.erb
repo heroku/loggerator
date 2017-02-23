@@ -1,4 +1,15 @@
 Loggerator::Log.default_context = { app: "<%= app_name %>" }
 <% if defined?(Loggerator::Metrics) -%>
-Loggerator::Metrics.name   = "<%= app_name %>"
+Loggerator::Metrics.name        = "<%= app_name %>"
+<% end -%>
+<% if defined?(LoggeratorRails) -%>
+
+# LoggeratorRails automatically overrides Rails' log subscribers for controller
+# handling with it's own log subscriber. The following is a simple method for
+# turning this off, causing the default logging to be modified.
+#
+# Additionally, the line below could be added only to config/environments/development.rb
+# to disable Loggerator's controller logging in development only.
+#
+#LoggeratorRails.use_default_subscribers!
 <% end -%>

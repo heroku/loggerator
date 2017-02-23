@@ -33,6 +33,7 @@ $ gem install loggerator
 Loggerator offers integration points for the Rails framework.
 * It adds log helpers to ActionView, ActiveRecord, ActionController, and ActionMailer
 * It will setup your default log context in an initalizer
+* It will remove existing log subscribers on controller actions and replace it with a custom log subscriber
 
 #### Log Helpers
 
@@ -67,6 +68,20 @@ Or you can set it manually or through configuration in the generated initializat
 Loggerator::Log.default_context = { app: Config.app_name }
 ```
 
+#### Custom Log Subscriber
+
+By default, upon including `loggerator/rails`, Loggerator will remove the default log subscribers that listen on controller actions, including redirection. The new log output should look something like this.
+
+```
+app=example_app method=GET path=/ format=*/* controller=main action=index status=200 duration=7.920 view=0.500 db=0.280
+```
+
+You can disabled this, using the default logger by adding or updating `config/initializers/log.rb`, to contain the following.
+
+```
+LoggeratorRails.use_default_subscribers!
+```
+
 ### Metrics Integration
 
 When including metrics, these will be added to the log items available:
@@ -78,6 +93,7 @@ When including metrics, these will be added to the log items available:
 Currently, the only metrics integration is written for [l2met](https://github.com/ryandotsmith/l2met).
 
 Amend your Gemfile to include the l2met integration:
+
 ```ruby
 gem "loggerator", require: ["loggerator/rails", "loggerator/metrics"]
 ```

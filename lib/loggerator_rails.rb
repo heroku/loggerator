@@ -16,6 +16,16 @@ module LoggeratorRails
     LoggeratorRails::LogSubscriber.attach_to(:action_controller)
   end
 
+  def subscribe?
+    return true unless defined?(@@subscribe) # ensure default is true
+
+    @@subscribe
+  end
+
+  def use_default_subscribers!
+    @@subscribe = false
+  end
+
   def detach_existing_subscribers
     ActiveSupport::LogSubscriber.log_subscribers.each do |subscriber|
       case subscriber
@@ -62,6 +72,6 @@ class Railtie < ::Rails::Railtie
   end
 
   config.after_initialize do
-    LoggeratorRails.setup(Rails.application)
+    LoggeratorRails.setup(Rails.application) if LoggeratorRails.subscribe?
   end
 end
