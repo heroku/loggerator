@@ -1,5 +1,5 @@
 require_relative "loggerator"
-require_relative "rails/log_subscriber"
+require_relative "rails/rack/log_subscriber"
 
 module Loggerator
   module Rails

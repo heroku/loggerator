@@ -1,6 +1,6 @@
 # Implementation respectfully borrowed from:
 # https://github.com/minefold/scrolls-rails
-require_relative "../loggerator"
+require_relative "../../loggerator"
 require "active_support/core_ext/class/attribute"
 require "active_support/log_subscriber"
 
