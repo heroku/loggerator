@@ -1,10 +1,10 @@
-require_relative "../test_helper"
+require_relative "test_helper"
 
 class TestLoggeratorRails < Minitest::Test
   def test_middleware_modifications
     # This ensures that the middlewares list includes our middlewares and that
     # the default request id handler has been replaced.
-    middlewares = ::Rails.application.middleware
+    middlewares = Rails.application.middleware
 
     assert middlewares.include?(Loggerator::Middleware::RequestStore)
     assert middlewares.include?(Loggerator::Middleware::RequestID)
@@ -33,7 +33,7 @@ class TestLoggeratorRails < Minitest::Test
           subscriber.instance_variable_get("@delegate").class
         }.uniq
 
-    assert subscribers.include?(Loggerator::Rails::LogSubscriber)
+    assert subscribers.include?(LoggeratorRails::LogSubscriber)
   end
 
   def test_detach_existing_subscribers
@@ -55,6 +55,6 @@ class TestLoggeratorRails < Minitest::Test
           )
         }.map(&:class).uniq
 
-    assert_equal subscribed_classes, [Loggerator::Rails::LogSubscriber]
+    assert_equal subscribed_classes, [LoggeratorRails::LogSubscriber]
   end
 end

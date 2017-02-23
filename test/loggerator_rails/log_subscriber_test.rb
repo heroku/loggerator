@@ -1,4 +1,4 @@
-require_relative "../../test_helper"
+require_relative "../test_helper"
 
 class FakeEvent
   attr_accessor :payload
@@ -6,7 +6,7 @@ end
 
 class LoggeratorRailsLogSubscriber < Minitest::Test
   def setup
-    @sub = Loggerator::Rails::LogSubscriber.new
+    @sub = LoggeratorRails::LogSubscriber.new
     @evt = FakeEvent.new
   end
 
