@@ -1,6 +1,18 @@
-test:
+test: &base
   image: ruby:latest
   working_dir: /app/user
   volumes:
     - '.:/app/user'
-  command: 'make'
+  command: bash -c 'bundle install && bundle exec rake'
+
+test_2_3:
+  <<: *base
+  image: ruby:2.3
+
+test_2_2:
+  <<: *base
+  image: ruby:2.2
+
+test_2_1:
+  <<: *base
+  image: ruby:2.1
