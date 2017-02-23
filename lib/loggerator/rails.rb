@@ -3,6 +3,8 @@ require_relative "rails/log_subscriber"
 
 module Loggerator
   module Rails
+    # Implementation respectfully borrowed from:
+    # https://github.com/minefold/scrolls-rails
     extend self
 
     def setup(_app)
