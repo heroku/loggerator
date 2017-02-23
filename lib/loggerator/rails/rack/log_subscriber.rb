@@ -1,19 +1,19 @@
 # Implementation respectfully borrowed from:
 # https://github.com/minefold/scrolls-rails
-require_relative "../../loggerator"
+require "loggerator"
 require "active_support/core_ext/class/attribute"
 require "active_support/log_subscriber"
 
 module Loggerator
   module Rails
     class LogSubscriber < ActiveSupport::LogSubscriber
+      include Loggerator
 
       FIELDS = [:method, :path, :format, :controller, :action, :status,
                 :error, :duration, :view, :db, :location].freeze
 
       def process_action(event)
         exception = event.payload[:exception]
-
         if exception.present?
           # In Rails 3.2.9 event.payload[:exception] was changed from an
           # Exception object to an Array containing the e.class.name and
@@ -23,9 +23,9 @@ module Loggerator
             exception = exception_class_name.constantize.new(exception_message)
           end
 
-          Loggerator.log_exception({status: 500}, exception)
+          self.log_error(exception, status: 500)
         else
-          Loggerator.log(extract_request_data_from_event(event))
+          self.log(extract_request_data_from_event(event))
         end
       end
 
