@@ -1,5 +1,5 @@
-require_relative "loggerator"
-require_relative "loggerator_rails/log_subscriber"
+require "loggerator"
+require "loggerator_rails/log_subscriber"
 
 module LoggeratorRails
   # Implementation respectfully borrowed from:

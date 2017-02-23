@@ -1,5 +1,5 @@
-require_relative 'request_store'
-require_relative 'middleware'
+require "loggerator/request_store"
+require "loggerator/middleware"
 
 module Loggerator
 

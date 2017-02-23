@@ -1,11 +1,11 @@
-require_relative 'loggerator'
+require "loggerator"
 
 module Loggerator
   module Metrics
     include Loggerator
     extend self
 
-    @@metrics_name = 'loggerator'
+    @@metrics_name = "loggerator"
 
     def name=(name)
       @@metrics_name = name
@@ -27,7 +27,7 @@ module Loggerator
       log("unique##{name}.#{key}" => value)
     end
 
-    def measure(key, value, units='s')
+    def measure(key, value, units="s")
       log("measure##{name}.#{key}" => "#{value}#{units}")
     end
   end
