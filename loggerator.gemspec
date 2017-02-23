@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "loggerator"
-  s.version     = "0.0.2"
+  s.version     = "0.1.0"
   s.summary     = "loggerator: A Log Helper"
   s.description = "Simple web application extension for logging, following the 12factor pattern."
   s.authors     = ["Joshua Mervine", "Reid MacDonald"]
