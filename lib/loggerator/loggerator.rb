@@ -7,6 +7,14 @@ module Loggerator
     mod.extend self
   end
 
+  def default_context=(default_context)
+    Log.default_context = default_context
+  end
+
+  def default_context
+    Log.default_context
+  end
+
   def log(data, &block)
     Log.to_stream(Log.stdout, Log.contexts(data), &block)
   end

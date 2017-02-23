@@ -1,6 +1,10 @@
-# A sample Gemfile
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'rake'
-gem 'minitest'
-gem 'rack-test'
+gem "rake"
+gem "minitest"
+gem "rspec"
+gem "rack-test"
+gem "rails", ">=4"
+gem "sqlite3"
+gem "combustion", "~> 0.5.5"
+gem "pry"

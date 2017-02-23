@@ -1,7 +1,4 @@
-require 'minitest/autorun'
-require 'logger'
-
-require_relative '../lib/loggerator'
+require_relative "test_helper"
 
 class TestLoggerator < Minitest::Test
   include Loggerator

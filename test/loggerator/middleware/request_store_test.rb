@@ -1,9 +1,4 @@
-require 'rack/test'
-require 'minitest/mock'
-require 'minitest/autorun'
-require 'logger'
-
-require_relative '../../../lib/loggerator'
+require_relative "../../test_helper"
 
 class Loggerator::Middleware::TestRequestStore < Minitest::Test
   include Rack::Test::Methods
@@ -13,14 +8,14 @@ class Loggerator::Middleware::TestRequestStore < Minitest::Test
       use Rack::Lint
       use Loggerator::Middleware::RequestStore
 
-      run ->(env) { [ 200, { }, [ 'hi' ] ] }
+      run ->(env) { [ 200, { }, [ "hi" ] ] }
     end
   end
 
   def test_clears_the_store
-    Thread.current[:request_store] = { something_added_before: 'bar' }
+    Thread.current[:request_store] = { something_added_before: "bar" }
 
-    get '/'
+    get "/"
 
     assert_nil Thread.current[:request_store][:something_added_before]
   end
@@ -28,7 +23,7 @@ class Loggerator::Middleware::TestRequestStore < Minitest::Test
   def test_seeds_the_store
     Thread.current[:request_store] = {}
 
-    get '/'
+    get "/"
 
     assert_equal Thread.current[:request_store], {
       request_id: nil,
