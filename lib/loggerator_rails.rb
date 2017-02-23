@@ -1,6 +1,11 @@
 require "loggerator"
 require "loggerator_rails/log_subscriber"
 
+# Using LoggeratorRails namespace over Loggerator::Rails due to the fact that
+# when Loggerator is included in Rails classes, e.g. ActiveRecord::Base,
+# Loggerator::Rails takes precedence over the Rails namespace, causing things
+# like "Rails.env" to break without prefixing "::". This is not only annoying,
+# but could break existing projects which upgrade to this version of Loggerator.
 module LoggeratorRails
   # Implementation respectfully borrowed from:
   # https://github.com/minefold/scrolls-rails
