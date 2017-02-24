@@ -76,7 +76,7 @@ By default, upon including `loggerator/rails`, Loggerator will remove the defaul
 app=example_app method=GET path=/ format=*/* controller=main action=index status=200 duration=7.920 view=0.500 db=0.280
 ```
 
-You can disabled this, using the default logger by adding or updating `config/initializers/log.rb`, to contain the following.
+You can disable this, using the default logger by adding or updating `config/initializers/log.rb`, to contain the following.
 
 ```
 LoggeratorRails.use_default_subscribers!
