@@ -81,3 +81,4 @@ module LoggeratorRails
     end
   end
 end
+

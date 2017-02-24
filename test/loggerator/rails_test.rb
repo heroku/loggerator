@@ -1,4 +1,4 @@
-require_relative "test_helper"
+require_relative "../test_helper"
 
 class TestLoggeratorRails < Minitest::Test
   def test_middleware_modifications
