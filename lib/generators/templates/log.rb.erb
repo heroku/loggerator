@@ -6,7 +6,7 @@ Loggerator.config do |config|
 
   # Set loggerator's metrics name. This is the name to be included as
   # part of the metric key when emitting metrics.
-  c.metrics_app_name = "<%= app_name %>"
+  config.metrics_app_name = "<%= app_name %>"
 <% end -%>
 <% if defined?(Loggerator::Railtie) -%>
 
@@ -20,7 +20,7 @@ Loggerator.config do |config|
   # Additionally, the line below could be added only to config/environments/development.rb
   # to disable Loggerator's controller logging in development only.
   #
-  #c.rails_default_subscribers = true
+  #config.rails_default_subscribers = true
 <% end -%>
 end
 
