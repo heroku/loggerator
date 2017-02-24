@@ -409,8 +409,8 @@ You can also provide different streams to use instead of `stdin` and `stderr`
 Here's a contrived example:
 ```ruby
 $log = StringIO.new
-Loggerator::Log.stdout = $log
-Loggerator::Log.stderr = $log
+Loggerator.config.stdout = $log
+Loggerator.config.stderr = $log
 ```
 
 ## Testing

@@ -20,19 +20,19 @@ module Loggerator
     end
 
     def stdout=(stream)
-      @@stdout = stream
+      Loggerator.config.stdout = stream
     end
 
     def stdout
-      @@stdout ||= $stdout
+      Loggerator.config.stdout
     end
 
     def stderr=(stream)
-      @@stderr = stream
+      Loggerator.config.stderr = stream
     end
 
     def stderr
-      @@stderr ||= $stderr
+      Loggerator.config.stderr
     end
 
     def contexts(data)
