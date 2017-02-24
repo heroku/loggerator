@@ -17,13 +17,7 @@ module LoggeratorRails
   end
 
   def subscribe?
-    return true unless defined?(@@subscribe) # ensure default is true
-
-    @@subscribe
-  end
-
-  def use_default_subscribers!
-    @@subscribe = false
+    !Loggerator.config.rails_default_subscribers
   end
 
   def detach_existing_subscribers

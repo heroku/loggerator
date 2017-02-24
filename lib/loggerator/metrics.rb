@@ -5,14 +5,14 @@ module Loggerator
     include Loggerator
     extend self
 
-    @@metrics_name = "loggerator"
+    Loggerator.config[:metrics_app_name] ||= "loggerator"
 
     def name=(name)
-      @@metrics_name = name
+      Loggerator.config[:metrics_app_name] = name
     end
 
     def name
-      @@metrics_name
+      Loggerator.config[:metrics_app_name]
     end
 
     def count(key, value=1)
