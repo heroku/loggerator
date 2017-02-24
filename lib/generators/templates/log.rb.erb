@@ -8,10 +8,10 @@ Loggerator.config do |config|
   # part of the metric key when emitting metrics.
   c.metrics_app_name = "<%= app_name %>"
 <% end -%>
-<% if defined?(LoggeratorRails) -%>
+<% if defined?(Loggerator::Railtie) -%>
 
-  # LoggeratorRails automatically overrides Rails' log subscribers for controller
-  # handling with it's own log subscriber.
+  # Requiring 'loggerator/rails' automatically overrides Rails' log subscribers
+  # for controller handling with it's own log subscriber.
   #
   # In case you may need to disable this functionality, the following is
   # a simple method for turning this off, causing the default logging to be

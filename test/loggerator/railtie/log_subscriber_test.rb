@@ -4,9 +4,9 @@ class FakeEvent
   attr_accessor :payload
 end
 
-class LoggeratorRailsLogSubscriber < Minitest::Test
+class LoggeratorRailtieLogSubscriber < Minitest::Test
   def setup
-    @sub = LoggeratorRails::LogSubscriber.new
+    @sub = Loggerator::Railtie::LogSubscriber.new
     @evt = FakeEvent.new
   end
 

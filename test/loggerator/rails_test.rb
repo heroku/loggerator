@@ -33,7 +33,7 @@ class TestLoggeratorRails < Minitest::Test
           subscriber.instance_variable_get("@delegate").class
         }.uniq
 
-    assert subscribers.include?(LoggeratorRails::LogSubscriber)
+    assert subscribers.include?(Loggerator::Railtie::LogSubscriber)
   end
 
   def test_detach_existing_subscribers
@@ -55,6 +55,6 @@ class TestLoggeratorRails < Minitest::Test
           )
         }.map(&:class).uniq
 
-    assert_equal subscribed_classes, [LoggeratorRails::LogSubscriber]
+    assert_equal subscribed_classes, [Loggerator::Railtie::LogSubscriber]
   end
 end
