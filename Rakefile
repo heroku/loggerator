@@ -30,7 +30,7 @@ task default: :test
 
 desc "Run tests on all support Ruby versions using Docker"
 task :regression do |_, args|
-  versions = args.to_a.select { |a| VERSIONS.include?(a) }
+  versions = args.to_a & VERSIONS
 
   if versions.empty?
     versions = VERSIONS
