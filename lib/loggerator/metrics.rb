@@ -5,8 +5,6 @@ module Loggerator
     include Loggerator
     extend self
 
-    Loggerator.config.metrics_app_name ||= "loggerator"
-
     def name=(name)
       Loggerator.config.metrics_app_name = name
     end
