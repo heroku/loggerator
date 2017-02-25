@@ -6,12 +6,10 @@ module Loggerator
       extend self
 
       def setup(_app)
+        return unless subscribe?
+
         detach_existing_subscribers
         Loggerator::Railtie::LogSubscriber.attach_to(:action_controller)
-      end
-
-      def subscribe?
-        !Loggerator.config.rails_default_subscribers
       end
 
       def detach_existing_subscribers
@@ -23,6 +21,10 @@ module Loggerator
             unsubscribe(:action_controller, subscriber)
           end
         end
+      end
+
+      def subscribe?
+        !Loggerator.config.rails_default_subscribers
       end
 
       def unsubscribe(component, subscriber)

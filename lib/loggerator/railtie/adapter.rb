@@ -17,7 +17,7 @@ module Loggerator
       end
 
       config.after_initialize do
-        Loggerator::Railtie::Helper.setup(Rails.application) if Loggerator::Railtie::Helper.subscribe?
+        Loggerator::Railtie::Helper.setup(Rails.application)
       end
     end
   end
