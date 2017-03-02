@@ -9,15 +9,15 @@ module Loggerator
   end
 
   def self.config
-    @@config ||= Configuration.new
+    @config ||= Configuration.new
 
-    return @@config unless block_given?
+    return @config unless block_given?
 
-    yield(@@config)
+    yield(@config)
   end
 
   def self.config=(cfg)
-    @@config = Configuration.new(cfg)
+    @config = Configuration.new(cfg)
   end
 
   def log(data, &block)
