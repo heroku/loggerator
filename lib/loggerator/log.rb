@@ -3,14 +3,6 @@ module Loggerator
   module Log
     extend self
 
-    def default_context=(default_context)
-      Loggerator.config.default_context = default_context
-    end
-
-    def default_context
-      Loggerator.config.default_context
-    end
-
     def local_context
       RequestStore.store[:local_context] ||= {}
     end
@@ -36,7 +28,7 @@ module Loggerator
     end
 
     def contexts(data)
-      default_context.merge(request_context.merge(local_context.merge(data)))
+      Loggerator.config.default_context.merge(request_context.merge(local_context.merge(data)))
     end
 
     def to_stream(stream, data, &block)

@@ -10,7 +10,7 @@ class TestLoggeratorMetrics < Minitest::Test
   end
 
   def test_name_equals
-    self.name = "test_name_equals"
+    config.metrics_app_name = "test_name_equals"
 
     assert_equal "test_name_equals", config.metrics_app_name
   end
