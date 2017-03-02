@@ -380,6 +380,8 @@ Foo.new.test
 
 ## Configuration
 
+> NOTE: Version `0.1.0` contains breaking configuration changes. Please review the following section and adjust your configuration accordingly.
+
 There are a few configuration options that can be setup in your initializer.
 
 ```ruby
