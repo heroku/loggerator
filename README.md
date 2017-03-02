@@ -33,6 +33,7 @@ $ gem install loggerator
 Loggerator offers integration points for the Rails framework.
 * It adds log helpers to ActionView, ActiveRecord, ActionController, and ActionMailer
 * It will setup your default log context in an initalizer
+* It will remove existing log subscribers on controller actions and replace it with a custom log subscriber
 
 #### Log Helpers
 
@@ -64,7 +65,21 @@ rails g loggerator:log -a myapp
 Or you can set it manually or through configuration in the generated initialization file `config/initializers/log.rb`. For example:
 
 ```ruby
-Loggerator::Log.default_context = { app: Config.app_name }
+Loggerator.config.default_context = { app: Config.app_name }
+```
+
+#### Custom Log Subscriber
+
+By default, upon including `loggerator/rails`, Loggerator will remove the default log subscribers that listen on controller actions, including redirection. The new log output should look something like this.
+
+```
+app=example_app method=GET path=/ format=*/* controller=main action=index status=200 duration=7.920 view=0.500 db=0.280
+```
+
+You can disable this, using the default logger by adding or updating `config/initializers/log.rb`, to contain the following.
+
+```
+Loggerator.config.rails_default_subscribers = true
 ```
 
 ### Metrics Integration
@@ -78,6 +93,7 @@ When including metrics, these will be added to the log items available:
 Currently, the only metrics integration is written for [l2met](https://github.com/ryandotsmith/l2met).
 
 Amend your Gemfile to include the l2met integration:
+
 ```ruby
 gem "loggerator", require: ["loggerator/rails", "loggerator/metrics"]
 ```
@@ -107,7 +123,7 @@ rails g loggerator:log -a myapp
 Or you can set it manually or through configuration in the generated initialization file `config/initializers/log.rb`. For example:
 
 ```ruby
-Loggerator::Metrics.name = Config.app_name
+Loggerator.config.metrics_app_name = Config.app_name
 ```
 
 ### Namespaces
@@ -132,8 +148,10 @@ Logs are sent to `stdout` and `stderr` as a stream to follow the [12factor](http
 Assume that the following examples have the following configuration:
 
 ```ruby
-Loggerator::Log.default_context = { app: 'myapp' }
-Loggerator::Metrics.name        = 'myapp'
+Loggerator.config do |c|
+  c.default_context = { app: "myapp" },
+  c.metrics_app_name = "myapp"
+end
 ```
 
 ### Log Helpers
@@ -362,12 +380,30 @@ Foo.new.test
 
 ## Configuration
 
+> NOTE: Version `0.1.0` contains breaking configuration changes. Please review the following section and adjust your configuration accordingly.
+
 There are a few configuration options that can be setup in your initializer.
 
-For any key-values you want on every log message.  With the generated intializer, the app name is the default, but any data can be added to this hash.
-
 ```ruby
-Loggerator::Log.default_context = { app: "myapp", env: Rails.env }
+Loggerator.config do |c|
+
+  # Set loggerator's default context. These are the key/value pairs
+  # defining your application, which are prepended to every log line.
+  c.default_context = { app: "myapp", env: Rails.env }
+
+  # Set loggerator's metrics name. This is the name to be included as
+  # part of the metric key when emitting metrics.
+  c.metrics_app_name = Config.app_name
+
+  # Requiring 'loggerator/rails' automatically overrides Rails' log subscribers
+  # for controller handling with it's own log subscriber.
+  #
+  # In case you may need to disable this functionality, the following is
+  # a simple method for turning this off, causing the default logging to be
+  # modified.
+  c.rails_default_subscribers = true
+
+end
 ```
 
 You can also provide different streams to use instead of `stdin` and `stderr`
@@ -375,14 +411,8 @@ You can also provide different streams to use instead of `stdin` and `stderr`
 Here's a contrived example:
 ```ruby
 $log = StringIO.new
-Loggerator::Log.stdout = $log
-Loggerator::Log.stderr = $log
-```
-
-And you can set the name to use for all your metric logs
-
-```ruby
-Loggerator::Metrics.name = Config.app_name
+Loggerator.config.stdout = $log
+Loggerator.config.stderr = $log
 ```
 
 ## Testing

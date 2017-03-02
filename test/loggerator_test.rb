@@ -1,16 +1,44 @@
-require 'minitest/autorun'
-require 'logger'
-
-require_relative '../lib/loggerator'
+require_relative "test_helper"
 
 class TestLoggerator < Minitest::Test
   include Loggerator
+  include Loggerator::Log
 
   def setup
     # flush request store
     Thread.current[:request_store] = {}
 
-    self.default_context = {}
+    Loggerator.config.default_context = {}
+  end
+
+  def test_config_from_block
+    Loggerator.config do |c|
+      c.default_context = { foo: :bar }
+      c.metrics_app_name = "foo_bar"
+      c.rails_default_subscribers = true
+    end
+
+    expected = {
+      default_context: { foo: :bar },
+      metrics_app_name: "foo_bar",
+      rails_default_subscribers: true
+    }
+
+    assert_equal expected, Loggerator.config.to_h
+  end
+
+  def test_config_from_hash
+    expected = {
+      default_context: { foo: :bar },
+      metrics_app_name: "foo_bar",
+      rails_default_subscribers: true
+    }
+
+    refute_equal expected, Loggerator.config.to_h
+
+    Loggerator.config = expected
+
+    assert_equal expected, Loggerator.config.to_h
   end
 
   def test_logs_in_structured_format
@@ -41,7 +69,7 @@ class TestLoggerator < Minitest::Test
 
   def test_merges_default_context_with_eq
     # testing both methods
-    self.default_context = { app: 'my_app' }
+    Loggerator.config.default_context = { app: "my_app" }
 
     out, _ = capture_subprocess_io do
       log(foo: 'bar')
@@ -62,7 +90,7 @@ class TestLoggerator < Minitest::Test
 
   def test_log_context_merged_with_default_context
     out, _ = capture_subprocess_io do
-      self.default_context = { app: 'my_app' }
+      Loggerator.config.default_context = { app: 'my_app' }
       self.log_context(foo: 'bar') do
         log(bah: 'boo')
       end

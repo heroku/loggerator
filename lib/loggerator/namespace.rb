@@ -1,4 +1,4 @@
-require_relative 'loggerator'
+require "loggerator"
 
 module Loggerator
   module Namespace

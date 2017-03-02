@@ -1,9 +1,4 @@
-require 'rack/test'
-require 'minitest/mock'
-require 'minitest/autorun'
-require 'logger'
-
-require_relative '../../../lib/loggerator'
+require_relative "../../test_helper"
 
 class Loggerator::Middleware::TestRequestID < Minitest::Test
   include Rack::Test::Methods
@@ -13,21 +8,21 @@ class Loggerator::Middleware::TestRequestID < Minitest::Test
       use Rack::Lint
       use Loggerator::Middleware::RequestID
 
-      run ->(env) { [ 200, { }, [ 'hi' ] ] }
+      run ->(env) { [ 200, { }, [ "hi" ] ] }
     end
   end
 
   def test_sets_request_id
-    get '/'
+    get "/"
 
     assert_match ::Loggerator::Middleware::RequestID::UUID_PATTERN,
-      last_request.env['REQUEST_ID']
+      last_request.env["REQUEST_ID"]
   end
 
   def test_sets_request_ids
-    get '/'
+    get "/"
 
     assert_match ::Loggerator::Middleware::RequestID::UUID_PATTERN,
-      last_request.env['REQUEST_IDS'].first
+      last_request.env["REQUEST_IDS"].first
   end
 end

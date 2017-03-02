@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.expand_path("../lib", File.dirname(__FILE__))
+
+# Simple console for debugging and testing.
+
+require "bundler"
+Bundler.setup(:default)
+
+require "pry"
+require "rails"
+require "loggerator"
+
+Pry.start

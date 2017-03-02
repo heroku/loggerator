@@ -1,4 +1,34 @@
-Loggerator::Log.default_context = { app: "<%= app_name %>" }
+Loggerator.config do |config|
+  # Set loggerator's default context. These are the key/value pairs
+  # defining your application, which are prepended to every log line.
+  config.default_context = { app: "<%= app_name %>" }
 <% if defined?(Loggerator::Metrics) -%>
-Loggerator::Metrics.name   = "<%= app_name %>"
+
+  # Set loggerator's metrics name. This is the name to be included as
+  # part of the metric key when emitting metrics.
+  config.metrics_app_name = "<%= app_name %>"
 <% end -%>
+<% if defined?(Loggerator::Railtie) -%>
+
+  # Requiring 'loggerator/rails' automatically overrides Rails' log subscribers
+  # for controller handling with it's own log subscriber.
+  #
+  # In case you may need to disable this functionality, the following is
+  # a simple method for turning this off, causing the default logging to be
+  # modified.
+  #
+  # Additionally, the line below could be added only to config/environments/development.rb
+  # to disable Loggerator's controller logging in development only.
+  #
+  #config.rails_default_subscribers = true
+<% end -%>
+end
+
+# Beyond the above configuration method, you can also set loggerator's config via
+# a hash.
+#
+#Loggerator.config = { default_context: { app: "<%= app_name %>" } }
+#
+# Or parsed from a yaml file.
+#
+#Loggerator.config = YAML.load_file(File.expand_path("../../loggerator.yml", __FILE__))

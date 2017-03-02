@@ -1,34 +1,24 @@
-require_relative 'loggerator'
+require "loggerator"
 
 module Loggerator
   module Metrics
     include Loggerator
     extend self
 
-    @@metrics_name = 'loggerator'
-
-    def name=(name)
-      @@metrics_name = name
-    end
-
-    def name
-      @@metrics_name
-    end
-
     def count(key, value=1)
-      log("count##{name}.#{key}" => value)
+      log("count##{Loggerator.config.metrics_app_name}.#{key}" => value)
     end
 
     def sample(key, value)
-      log("sample##{name}.#{key}" => value)
+      log("sample##{Loggerator.config.metrics_app_name}.#{key}" => value)
     end
 
     def unique(key, value)
-      log("unique##{name}.#{key}" => value)
+      log("unique##{Loggerator.config.metrics_app_name}.#{key}" => value)
     end
 
-    def measure(key, value, units='s')
-      log("measure##{name}.#{key}" => "#{value}#{units}")
+    def measure(key, value, units="s")
+      log("measure##{Loggerator.config.metrics_app_name}.#{key}" => "#{value}#{units}")
     end
   end
 
