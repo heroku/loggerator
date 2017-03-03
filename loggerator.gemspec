@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "loggerator"
-  s.version     = "0.1.0"
+  s.version     = "0.1.1"
   s.summary     = "loggerator: A Log Helper"
   s.description = "Simple web application extension for logging, following the 12factor pattern."
   s.authors     = ["Joshua Mervine", "Reid MacDonald"]
@@ -9,6 +9,4 @@ Gem::Specification.new do |s|
   s.test_files  = `git ls-files -- test/*`.split("\n")
   s.homepage    = "https://github.com/heroku/loggerator"
   s.license     = "MIT"
-
-  s.add_runtime_dependency "rails", ">= 4"
 end
