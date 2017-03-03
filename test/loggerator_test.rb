@@ -99,16 +99,17 @@ class TestLoggerator < Minitest::Test
     assert_equal out, "app=my_app foo=bar bah=boo\n"
   end
 
-  def test_log_error_without_args
+  def test_log_error
     _, err = capture_subprocess_io do
       begin
         raise "an error"
-      rescue
-        self.log_error
+      rescue => ex
+        self.log_error(ex, foo: :bar_bah_boo)
       end
     end
 
     assert_match(/message="an error"/, err)
+    assert_match(/foo=bar_bah_boo/, err)
   end
 
   def test_log_error_without_data
@@ -121,18 +122,5 @@ class TestLoggerator < Minitest::Test
     end
 
     assert_match(/message="another error"/, err)
-  end
-
-  def test_log_error_without_exception
-    _, err = capture_subprocess_io do
-      begin
-        raise "yet another error"
-      rescue
-        self.log_error(foo: :bar_bah_boo)
-      end
-    end
-
-    assert_match(/message="yet another error"/, err)
-    assert_match(/foo=bar_bah_boo/, err)
   end
 end

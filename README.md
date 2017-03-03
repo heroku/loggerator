@@ -208,13 +208,11 @@ Log exception information using `log_error`.  It will log the class, message, an
 
 Errors logs are sent to `stderr` by default.
 
-It will use the latest error (`$!`) by deafult.
-
 ```ruby
-def emit_error
+begin
   raise "this is an error"
-rescue
-  log_error
+rescue => ex
+  log_error(ex)
 end
 
 emit_error
@@ -223,20 +221,14 @@ emit_error
 #=> app=myapp exception_id=70113140892880 exception class=RuntimeError message="this is an error"
 ```
 
-You can specify the error as the first argument, instead of using the latest error (`$!`)
-
-```ruby
-def emit_error
-  raise "this is an error"
-rescue => e
-  log_error(e)
-end
-```
-
 You can add additional key-value pairs to `log_error`
 
 ```ruby
-log_error try: 2
+begin
+    raise "this is an error"
+rescue => ex
+    log_error(ex, try: 2)
+end
 #=> app=myapp exception_id=70113140892880 exception class=RuntimeError message="this is an error" try=2
 ```
 
