@@ -24,12 +24,12 @@ module Loggerator
     Log.to_stream(Log.stdout, Log.contexts(data), &block)
   end
 
-  def log_error(e=$ERROR_INFO, data = {})
-    exception_id = e.object_id
+  def log_error(error, data = {})
+    exception_id = error.object_id
 
     # Log backtrace in reverse order for easier digestion.
-    if e.backtrace
-      e.backtrace.reverse.each do |backtrace|
+    if error.backtrace
+      error.backtrace.reverse.each do |backtrace|
         Log.to_stream(Log.stderr, Log.contexts(
           exception_id: exception_id,
           backtrace:    backtrace
@@ -41,12 +41,12 @@ module Loggerator
     # a log trace as possible
     data.merge!(
       exception:    true,
-      class:        e.class.name,
-      message:      e.message,
+      class:        error.class.name,
+      message:      error.message,
       exception_id: exception_id
     )
 
-    data[:status] = e.status if e.respond_to?(:status)
+    data[:status] = error.status if error.respond_to?(:status)
 
     Log.to_stream(Log.stderr, Log.contexts(data))
   end
