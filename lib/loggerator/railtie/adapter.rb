@@ -4,6 +4,8 @@ module Loggerator
       config.before_configuration do
         Rails.application.middleware.insert_after ActionDispatch::RequestId, Loggerator::Middleware::RequestStore
         Rails.application.middleware.swap         ActionDispatch::RequestId, Loggerator::Middleware::RequestID
+
+        Rails.application.middleware.delete(Rails::Rack::Logger) if defined?(Rails::Rack::Logger)
       end
 
       config.before_initialize do
