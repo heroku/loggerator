@@ -8,7 +8,9 @@ class TestLoggeratorRails < Minitest::Test
 
     assert middlewares.include?(Loggerator::Middleware::RequestStore)
     assert middlewares.include?(Loggerator::Middleware::RequestID)
+
     refute middlewares.include?(ActionDispatch::RequestId)
+    refute middlewares.include?(Rails::Rack::Logger)
   end
 
   def test_loggerator_included
