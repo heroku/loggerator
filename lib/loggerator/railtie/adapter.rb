@@ -9,12 +9,15 @@ module Loggerator
       end
 
       config.before_initialize do
-        [ ActionView::Base,
-          ActiveRecord::Base,
-          ActionMailer::Base,
-          ActionController::Base ].each do |c|
-
-          c.include Loggerator
+        %w[ ActionView::Base
+            ActiveRecord::Base
+            ActionMailer::Base
+            ActionController::Base ].each do |c|
+          begin
+            base_class = Module.const_get(c)
+            base_class.include Loggerator
+          rescue NameError
+          end
         end
       end
 
