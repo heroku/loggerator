@@ -436,10 +436,10 @@ In the prior example, only `test2` would be printed to the log.
 To see if the logs are turned on off
 
 ```ruby
-Loggerator.turn(:on)
+Loggerator.turn_log(:on)
 Loggerator.log?       #=> true
 
-Loggerator.turn(:off)
+Loggerator.turn_log(:off)
 Loggerator.log?       #=> false
 ```
 
