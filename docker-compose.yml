@@ -5,14 +5,18 @@ test: &base
     - '.:/app/user'
   command: bash -c 'bundle install && bundle exec rake'
 
+test_2_6:
+  <<: *base
+  image: ruby:2.6
+
+test_2_5:
+  <<: *base
+  image: ruby:2.5
+
+test_2_4:
+  <<: *base
+  image: ruby:2.4
+
 test_2_3:
   <<: *base
   image: ruby:2.3
-
-test_2_2:
-  <<: *base
-  image: ruby:2.2
-
-test_2_1:
-  <<: *base
-  image: ruby:2.1
