@@ -1,5 +1,5 @@
 require 'fileutils'
-VERSIONS = %w[ 2.1 2.2 2.3 latest ].freeze
+VERSIONS = %w[ 2.3 2.4 2.5 2.6 ].freeze
 
 def dcrm_test(version: "latest")
   puts "\n---\nRunning tests using Docker on Ruby (#{version})"
