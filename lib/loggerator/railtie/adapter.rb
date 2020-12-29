@@ -3,12 +3,13 @@ module Loggerator
     class Adapter < ::Rails::Railtie
       config.before_configuration do
         Rails.application.middleware.insert_after ActionDispatch::RequestId, Loggerator::Middleware::RequestStore
-        Rails.application.middleware.swap         ActionDispatch::RequestId, Loggerator::Middleware::RequestID
 
         Rails.application.middleware.delete(Rails::Rack::Logger) if defined?(Rails::Rack::Logger)
       end
 
       config.before_initialize do
+        Rails.application.middleware.swap ActionDispatch::RequestId, Loggerator::Middleware::RequestID
+
         %w[ ActionView::Base
             ActiveRecord::Base
             ActionMailer::Base
