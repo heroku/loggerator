@@ -388,7 +388,7 @@ Loggerator.config do |c|
   c.metrics_app_name = Config.app_name
 
   # Requiring 'loggerator/rails' automatically overrides Rails' log subscribers
-  # for controller handling with it's own log subscriber.
+  # for controller handling with its own log subscriber.
   #
   # In case you may need to disable this functionality, the following is
   # a simple method for turning this off, causing the default logging to be
@@ -442,4 +442,3 @@ Loggerator.log?       #=> true
 Loggerator.turn_log(:off)
 Loggerator.log?       #=> false
 ```
-
